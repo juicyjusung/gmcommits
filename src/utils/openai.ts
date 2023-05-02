@@ -146,7 +146,7 @@ export const generateCommitMessage = async (
 	const prompt = getPrompt(locale, diff, maxLength);
 
 	// Padded by 5 for more room for the completion.
-	const stringFromLength = generateStringFromLength(maxLength + 5);
+	const stringFromLength = generateStringFromLength(maxLength + 10);
 
 	// The token limit is shared between the prompt and the completion.
 	const maxTokens = getTokens(stringFromLength + prompt, model);
