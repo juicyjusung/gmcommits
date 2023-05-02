@@ -28,7 +28,7 @@ export default () => (async () => {
 		return;
 	}
 
-	intro(bgCyan(black(' aicommits ')));
+	intro(bgCyan(black(' gmcommits ')));
 
 	const { env } = process;
 	const config = await getConfig({

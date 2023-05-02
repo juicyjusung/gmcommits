@@ -17,26 +17,26 @@ export default testSuite(({ describe }) => {
 
 	describe('Commits', async ({ test, describe }) => {
 		test('Excludes files', async () => {
-			const { fixture, aicommits } = await createFixture(files);
+			const { fixture, gmcommits } = await createFixture(files);
 			const git = await createGit(fixture.path);
 
 			await git('add', ['data.json']);
 			const statusBefore = await git('status', ['--porcelain', '--untracked-files=no']);
 			expect(statusBefore.stdout).toBe('A  data.json');
 
-			const { stdout, exitCode } = await aicommits(['--exclude', 'data.json'], { reject: false });
+			const { stdout, exitCode } = await gmcommits(['--exclude', 'data.json'], { reject: false });
 			expect(exitCode).toBe(1);
 			expect(stdout).toMatch('No staged changes found.');
 			await fixture.rm();
 		});
 
 		test('Generates commit message', async () => {
-			const { fixture, aicommits } = await createFixture(files);
+			const { fixture, gmcommits } = await createFixture(files);
 			const git = await createGit(fixture.path);
 
 			await git('add', ['data.json']);
 
-			const committing = aicommits();
+			const committing = gmcommits();
 			committing.stdout!.on('data', (buffer: Buffer) => {
 				const stdout = buffer.toString();
 				if (stdout.match('└')) {
@@ -61,16 +61,16 @@ export default testSuite(({ describe }) => {
 		});
 
 		test('Generated commit message must be under 20 characters', async () => {
-			const { fixture, aicommits } = await createFixture({
+			const { fixture, gmcommits } = await createFixture({
 				...files,
-				'.aicommits': `${files['.aicommits']}\nmax-length=20`,
+				'.gmcommits': `${files['.gmcommits']}\nmax-length=20`,
 			});
 
 			const git = await createGit(fixture.path);
 
 			await git('add', ['data.json']);
 
-			const committing = aicommits();
+			const committing = gmcommits();
 			committing.stdout!.on('data', (buffer: Buffer) => {
 				const stdout = buffer.toString();
 				if (stdout.match('└')) {
@@ -92,7 +92,7 @@ export default testSuite(({ describe }) => {
 		});
 
 		test('Accepts --all flag, staging all changes before commit', async () => {
-			const { fixture, aicommits } = await createFixture(files);
+			const { fixture, gmcommits } = await createFixture(files);
 			const git = await createGit(fixture.path);
 
 			await git('add', ['data.json']);
@@ -103,7 +103,7 @@ export default testSuite(({ describe }) => {
 			const statusBefore = await git('status', ['--short', '--untracked-files=no']);
 			expect(statusBefore.stdout).toBe(' M data.json');
 
-			const committing = aicommits(['--all']);
+			const committing = gmcommits(['--all']);
 			committing.stdout!.on('data', (buffer: Buffer) => {
 				const stdout = buffer.toString();
 				if (stdout.match('└')) {
@@ -128,16 +128,16 @@ export default testSuite(({ describe }) => {
 		});
 
 		test('Accepts --generate flag, overriding config', async ({ onTestFail }) => {
-			const { fixture, aicommits } = await createFixture({
+			const { fixture, gmcommits } = await createFixture({
 				...files,
-				'.aicommits': `${files['.aicommits']}\ngenerate=4`,
+				'.gmcommits': `${files['.gmcommits']}\ngenerate=4`,
 			});
 			const git = await createGit(fixture.path);
 
 			await git('add', ['data.json']);
 
 			// Generate flag should override generate config
-			const committing = aicommits([
+			const committing = gmcommits([
 				'--generate', '2',
 			]);
 
@@ -174,15 +174,15 @@ export default testSuite(({ describe }) => {
 			// https://stackoverflow.com/a/15034560/911407
 			const japanesePattern = /[\u3000-\u303F\u3040-\u309F\u30A0-\u30FF\uFF00-\uFF9F\u4E00-\u9FAF\u3400-\u4DBF]/;
 
-			const { fixture, aicommits } = await createFixture({
+			const { fixture, gmcommits } = await createFixture({
 				...files,
-				'.aicommits': `${files['.aicommits']}\nlocale=ja`,
+				'.gmcommits': `${files['.gmcommits']}\nlocale=ja`,
 			});
 			const git = await createGit(fixture.path);
 
 			await git('add', ['data.json']);
 
-			const committing = aicommits();
+			const committing = gmcommits();
 
 			committing.stdout!.on('data', (buffer: Buffer) => {
 				const stdout = buffer.toString();
@@ -210,15 +210,15 @@ export default testSuite(({ describe }) => {
 
 		describe('proxy', ({ test }) => {
 			test('Fails on invalid proxy', async () => {
-				const { fixture, aicommits } = await createFixture({
+				const { fixture, gmcommits } = await createFixture({
 					...files,
-					'.aicommits': `${files['.aicommits']}\nproxy=http://localhost:1234`,
+					'.gmcommits': `${files['.gmcommits']}\nproxy=http://localhost:1234`,
 				});
 				const git = await createGit(fixture.path);
 
 				await git('add', ['data.json']);
 
-				const committing = aicommits([], {
+				const committing = gmcommits([], {
 					reject: false,
 				});
 
@@ -239,15 +239,15 @@ export default testSuite(({ describe }) => {
 			});
 
 			test('Connects with config', async () => {
-				const { fixture, aicommits } = await createFixture({
+				const { fixture, gmcommits } = await createFixture({
 					...files,
-					'.aicommits': `${files['.aicommits']}\nproxy=http://localhost:8888`,
+					'.gmcommits': `${files['.gmcommits']}\nproxy=http://localhost:8888`,
 				});
 				const git = await createGit(fixture.path);
 
 				await git('add', ['data.json']);
 
-				const committing = aicommits();
+				const committing = gmcommits();
 
 				committing.stdout!.on('data', (buffer: Buffer) => {
 					const stdout = buffer.toString();
@@ -273,12 +273,12 @@ export default testSuite(({ describe }) => {
 			});
 
 			test('Connects with env variable', async () => {
-				const { fixture, aicommits } = await createFixture(files);
+				const { fixture, gmcommits } = await createFixture(files);
 				const git = await createGit(fixture.path);
 
 				await git('add', ['data.json']);
 
-				const committing = aicommits([], {
+				const committing = gmcommits([], {
 					env: {
 						HTTP_PROXY: 'http://localhost:8888',
 					},

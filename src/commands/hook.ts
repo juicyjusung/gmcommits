@@ -43,7 +43,7 @@ export default command({
 					console.warn('The hook is already installed');
 					return;
 				}
-				throw new KnownError(`A different ${hookName} hook seems to be installed. Please remove it before installing aicommits.`);
+				throw new KnownError(`A different ${hookName} hook seems to be installed. Please remove it before installing gmcommits.`);
 			}
 
 			await fs.mkdir(path.dirname(symlinkPath), { recursive: true });

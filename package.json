@@ -1,5 +1,5 @@
 {
-	"name": "aicommits",
+	"name": "gmcommits",
 	"version": "0.0.0-semantic-release",
 	"description": "Writes your git commit messages for you with AI",
 	"keywords": [
@@ -8,15 +8,15 @@
 		"commit"
 	],
 	"license": "MIT",
-	"repository": "Nutlope/aicommits",
-	"author": "Hassan El Mghari (@nutlope)",
+	"repository": "juicyjusung/gmcommits",
+	"author": "juicyjusung <juicyjusung@gmail.com>",
 	"type": "module",
 	"files": [
 		"dist"
 	],
 	"bin": {
-		"aicommits": "./dist/cli.mjs",
-		"aic": "./dist/cli.mjs"
+		"gmcommits": "./dist/cli.mjs",
+		"gmc": "./dist/cli.mjs"
 	},
 	"scripts": {
 		"prepare": "simple-git-hooks",

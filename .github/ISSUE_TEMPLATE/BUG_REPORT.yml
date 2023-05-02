@@ -18,11 +18,11 @@ body:
       required: true
   - type: input
     attributes:
-      label: aicommits version
+      label: gmcommits version
       description: |
         Run and paste the output of:
         ```sh
-        aicommits --version
+        gmcommits --version
         ```
       placeholder: v0.0.0
     validations:
@@ -35,7 +35,7 @@ body:
         ```sh
         npx envinfo --system --binaries
         ```
-        
+
         This information is used to for reproduction and debugging.
       placeholder: |
         System:

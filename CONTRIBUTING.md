@@ -64,12 +64,12 @@ Publish your current branch to a `npm/*` branch on your GitHub repository:
 $ pnpm dlx git-publish
 
 ✔ Successfully published branch! Install with command:
-  → npm i 'Nutlope/aicommits#npm/develop'
+  → npm i 'Nutlope/gmcommits#npm/develop'
 ```
 
-> Note: The `Nutlope/aicommits` will be replaced with your fork's URL.
+> Note: The `Nutlope/gmcommits` will be replaced with your fork's URL.
 
 Now, you can run the branch in your project:
 ```sh
-$ pnpm dlx 'Nutlope/aicommits#npm/develop' # same as running `npx aicommits`
+$ pnpm dlx 'Nutlope/gmcommits#npm/develop' # same as running `npx gmcommits`
 ```
