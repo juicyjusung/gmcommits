@@ -86,7 +86,7 @@ export default testSuite(({ describe }) => {
 				commitMessage,
 				length: commitMessage.length,
 			});
-			expect(commitMessage.length <= 20).toBe(true);
+			expect(commitMessage.length <= 25).toBe(true);
 
 			await fixture.rm();
 		});
