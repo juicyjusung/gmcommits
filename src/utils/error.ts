@@ -15,6 +15,6 @@ export const handleCliError = (error: any) => {
 		}
 		console.error(`\n${indent}${dim(`gmcommits v${version}`)}`);
 		console.error(`\n${indent}Please open a Bug report with the information above:`);
-		console.error(`${indent}https://github.com/Nutlope/gmcommits/issues/new/choose`);
+		console.error(`${indent}https://github.com/juicyjusung/gmcommits/issues/new/choose`);
 	}
 };
