@@ -111,6 +111,7 @@ const getPrompt = (
 ) => `${[
 	'Generate a concise git commit message written in present tense for the following code diff with the given specifications.',
 	'[commit type]: [gotmoji] subject.',
+	'subject starts with a lowercase letter and ends with a period.',
 	`Message language: ${locale}`,
 	`Max message character length: ${maxLength}`,
 	'Exclude anything unnecessary such as the original translation—your entire response will be passed directly into git commit.',
