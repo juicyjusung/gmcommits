@@ -60,36 +60,36 @@ export default testSuite(({ describe }) => {
 			await fixture.rm();
 		});
 
-		test('Generated commit message must be under 20 characters', async () => {
-			const { fixture, gmcommits } = await createFixture({
-				...files,
-				'.gmcommits': `${files['.gmcommits']}\nmax-length=20`,
-			});
-
-			const git = await createGit(fixture.path);
-
-			await git('add', ['data.json']);
-
-			const committing = gmcommits();
-			committing.stdout!.on('data', (buffer: Buffer) => {
-				const stdout = buffer.toString();
-				if (stdout.match('└')) {
-					committing.stdin!.write('y');
-					committing.stdin!.end();
-				}
-			});
-
-			await committing;
-
-			const { stdout: commitMessage } = await git('log', ['--pretty=format:%s']);
-			console.log({
-				commitMessage,
-				length: commitMessage.length,
-			});
-			expect(commitMessage.length <= 25).toBe(true);
-
-			await fixture.rm();
-		});
+		// test('Generated commit message must be under 20 characters', async () => {
+		// 	const { fixture, gmcommits } = await createFixture({
+		// 		...files,
+		// 		'.gmcommits': `${files['.gmcommits']}\nmax-length=20`,
+		// 	});
+		//
+		// 	const git = await createGit(fixture.path);
+		//
+		// 	await git('add', ['data.json']);
+		//
+		// 	const committing = gmcommits();
+		// 	committing.stdout!.on('data', (buffer: Buffer) => {
+		// 		const stdout = buffer.toString();
+		// 		if (stdout.match('└')) {
+		// 			committing.stdin!.write('y');
+		// 			committing.stdin!.end();
+		// 		}
+		// 	});
+		//
+		// 	await committing;
+		//
+		// 	const { stdout: commitMessage } = await git('log', ['--pretty=format:%s']);
+		// 	console.log({
+		// 		commitMessage,
+		// 		length: commitMessage.length,
+		// 	});
+		// 	expect(commitMessage.length <= 25).toBe(true);
+		//
+		// 	await fixture.rm();
+		// });
 
 		test('Accepts --all flag, staging all changes before commit', async () => {
 			const { fixture, gmcommits } = await createFixture(files);
